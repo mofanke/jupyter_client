@@ -58,6 +58,7 @@ class KernelSpec(HasTraits):
             interrupt_mode=self.interrupt_mode,
             metadata=self.metadata,
         )
+        print(d)
 
         return d
 
