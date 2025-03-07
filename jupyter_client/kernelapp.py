@@ -38,6 +38,21 @@ class KernelApp(JupyterApp):
         self.loop = None
     
     def initialize(self, argv=None):
+        """
+        Initialize the kernel application.
+        
+        Increments a global counter and configures the connection file for the KernelManager
+        by generating a unique filename. Updates the application configuration, instantiates
+        the KernelManager with the designated kernel name, retrieves the current IOLoop, and
+        schedules a callback to record the startup state. The KernelManager instance is printed
+        for debugging purposes.
+        
+        Args:
+            argv: Optional list of command-line arguments (currently unused).
+        
+        Returns:
+            True.
+        """
         global x  
         x += 1
         
@@ -53,6 +68,13 @@ class KernelApp(JupyterApp):
         return True 
 
     def setup_signals(self) -> None:
+        """
+        Sets up Unix signal handlers for graceful shutdown.
+        
+        On Unix-based systems, registers handlers for SIGTERM and SIGINT that schedule a callback
+        to invoke the shutdown method via the IOLoop. On Windows, the method returns without
+        registering any signal handlers.
+        """
         if os.name == "nt":
             return
         
@@ -86,6 +108,12 @@ class KernelApp(JupyterApp):
             f.close()
 
     def start(self) -> None:
+        """
+        Starts the kernel and enters the event loop.
+        
+        This method logs a startup message, initiates the kernel through the kernel manager,
+        logs connection details, sets up signal handlers for a graceful shutdown, and starts the IOLoop.
+        """
         self.log.info("Starting kernel %r", self.kernel_name)
         self.km.start_kernel()
         self.log_connection_info()
