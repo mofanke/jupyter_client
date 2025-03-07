@@ -48,6 +48,7 @@ class KernelApp(JupyterApp):
 
         self.loop = IOLoop.current()
         self.loop.add_callback(self._record_started)
+        print(self.km)
         
         return True 
 
