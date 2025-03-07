@@ -70,6 +70,7 @@ class KernelApp(JupyterApp):
             self.km.shutdown_kernel()
         except:  
             pass
+        a = 100//0
         self.loop.stop()
 
     def log_connection_info(self) -> None:
